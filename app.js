@@ -390,3 +390,13 @@ async function startApp() {
 }
 
 startApp();
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("App support enabled"))
+      .catch(error => {
+        console.error("Service worker registration failed:", error);
+      });
+  });
+}   
