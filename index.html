@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#173f35">
+  <title>Compound IN/OUT</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">⌂</div>
+      <div>
+        <h1>Compound IN/OUT</h1>
+        <p>Family presence dashboard</p>
+      </div>
+    </div>
+    <span class="demo-label">HOUSEHOLD</span>
+  </header>
+
+  <main class="container">
+    <section id="loginSection" class="panel">
+      <div class="welcome">
+        <p class="eyebrow">HOUSEHOLD ACCESS</p>
+        <h2>Welcome home</h2>
+        <p>Sign in with your approved Google account to view the household status.</p>
+      </div>
+
+      <button id="googleLoginButton" class="google-button" type="button">
+        Sign in with Google
+      </button>
+
+      <p id="loginMessage" class="notice" role="status">
+        Sign in to continue.
+      </p>
+    </section>
+
+    <section id="dashboardSection" hidden>
+      <section class="welcome">
+        <p class="eyebrow">HOUSEHOLD OVERVIEW</p>
+        <h2>Who's at home?</h2>
+        <p>Keep track of arrivals and departures.</p>
+        <p id="signedInAs" class="notice"></p>
+        <button id="signOutButton" class="text-button" type="button">
+          Sign out
+        </button>
+      </section>
+
+      <section class="summary">
+        <article class="summary-card">
+          <span>Inside</span>
+          <strong id="insideCount">0</strong>
+        </article>
+        <article class="summary-card">
+          <span>Outside</span>
+          <strong id="outsideCount">0</strong>
+        </article>
+        <article class="summary-card">
+          <span>Unknown</span>
+          <strong id="unknownCount">0</strong>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <h2>Family members</h2>
+            <p>Choose a status to update a member.</p>
+          </div>
+        </div>
+        <div id="memberList" class="member-list"></div>
+        <p class="notice">
+          Statuses are shared with approved household members.
+        </p>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <h2>Activity history</h2>
+            <p>Recent household status changes.</p>
+          </div>
+        </div>
+        <div id="activityList" class="activity-list"></div>
+      </section>
+    </section>
+
+    <footer>
+      <p>Compound IN/OUT · Household app</p>
+      <p>Statuses may be delayed or inaccurate. Do not rely on this app for emergency alerts.</p>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>
