@@ -378,3 +378,23 @@ footer p {
 }
 
 }
+
+
+/* Make the Sign out button easier to see */
+#signOutButton {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 16px;
+  border: 1px solid #b8c8c2;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #173f35;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#signOutButton:hover {
+  background-color: #eaf2ee;
+}
+
