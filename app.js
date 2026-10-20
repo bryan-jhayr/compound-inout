@@ -9,6 +9,9 @@ const supabaseClient = window.supabase.createClient(
 
 const loginSection = document.getElementById("loginSection");
 const dashboardSection = document.getElementById("dashboardSection");
+const publicSection = document.getElementById("publicSection");
+const publicOutList = document.getElementById("publicOutList");
+const publicMessage = document.getElementById("publicMessage");
 const googleLoginButton = document.getElementById("googleLoginButton");
 const signOutButton = document.getElementById("signOutButton");
 const loginMessage = document.getElementById("loginMessage");
@@ -48,7 +51,8 @@ function getStatusClass(status) {
   return "unknown";
 }
 
-function showLogin(message = "Sign in to continue.") {
+
+function showLogin(message = "Sign in to update statuses.") {
   currentUser = null;
   members = [];
   activities = [];
@@ -60,19 +64,60 @@ function showLogin(message = "Sign in to continue.") {
 
   loginSection.hidden = false;
   dashboardSection.hidden = true;
+  publicSection.hidden = false;
+
   loginMessage.textContent = message;
   googleLoginButton.disabled = false;
 
   document.getElementById("memberList").innerHTML = "";
   document.getElementById("activityList").innerHTML = "";
+
+  loadPublicOutMembers();
+}
+
+async function loadPublicOutMembers() {
+  publicMessage.textContent = "Loading current status...";
+  publicOutList.innerHTML = "";
+
+  const { data, error } = await supabaseClient
+    .from("members")
+    .select("name, status")
+    .eq("status", "OUT");
+
+  if (error) {
+    console.error("Could not load public OUT list:", error);
+    publicMessage.textContent =
+      "Could not load the OUT list. Please refresh the page.";
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    publicMessage.textContent = "No household members are currently marked OUT.";
+    return;
+  }
+
+  publicOutList.innerHTML = data.map(member => `
+    <article class="member-card">
+      <div class="member-info">
+        <h3>${escapeHTML(member.name)}</h3>
+        <span class="status-badge out">OUT</span>
+      </div>
+    </article>
+  `).join("");
+
+  publicMessage.textContent =
+    "View only. Sign in with an approved Google account to update statuses.";
 }
 
 function showDashboard(user) {
   currentUser = user;
   loginSection.hidden = true;
+  publicSection.hidden = true;
   dashboardSection.hidden = false;
-  signedInAs.textContent = `Signed in as ${user.email || "household member"}`;
+  signedInAs.textContent =
+    `Signed in as ${user.email || "household member"}`;
 }
+
 
 async function signInWithGoogle() {
   googleLoginButton.disabled = true;
