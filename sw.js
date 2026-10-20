@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "compound-inout-shell-v1";
+const CACHE_NAME = "compound-inout-shell-v2";
 
 const APP_FILES = [
   "./",
@@ -34,12 +34,14 @@ self.addEventListener("fetch", event => {
   const url = new URL(request.url);
 
   // Leave Supabase and other external requests alone.
-  if (url.origin !== self.location.origin ||
-      request.method !== "GET") {
+  if (
+    url.origin !== self.location.origin ||
+    request.method !== "GET"
+  ) {
     return;
   }
 
-  // Use the latest page when online; fall back to cache offline.
+  // Get the latest page when online; use cache if offline.
   if (request.mode === "navigate") {
     event.respondWith(
       fetch(request).catch(() => caches.match("./index.html"))
@@ -47,12 +49,10 @@ self.addEventListener("fetch", event => {
     return;
   }
 
-  // Cache local app files.
+  // Prefer fresh local files; fall back to cache offline.
   event.respondWith(
-    caches.match(request).then(cached => {
-      if (cached) return cached;
-
-      return fetch(request).then(response => {
+    fetch(request)
+      .then(response => {
         if (response.ok) {
           const copy = response.clone();
           caches.open(CACHE_NAME).then(cache =>
@@ -60,7 +60,11 @@ self.addEventListener("fetch", event => {
           );
         }
         return response;
-      });
-    })
+      })
+      .catch(async () => {
+        const cached = await caches.match(request);
+        if (cached) return cached;
+        throw new Error("File unavailable online and offline.");
+      })
   );
 });
