@@ -1,4 +1,3 @@
-
 const SUPABASE_URL = "https://lzmvvqqygegwmijirovt.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_xweQ4dGsggg1Qy0zoNYXAQ_oKvq_fSn";
 
@@ -173,10 +172,6 @@ async function checkHouseholdApproval(user) {
   
   const { data: isSuperadmin, error: roleError } =
     await supabaseClient.rpc("is_household_superadmin");
-
-  console.log("Signed-in email:", user.email);
-  console.log("Is Superadmin:", isSuperadmin);
-  console.log("Role check error:", roleError);
 
   showDashboard(user);
   return true;
