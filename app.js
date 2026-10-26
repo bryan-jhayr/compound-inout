@@ -353,7 +353,7 @@ async function updateStatus(memberId, newStatus) {
       );
     }
 
-    const { error: activityError } = await supabaseClient
+    /*const { error: activityError } = await supabaseClient
       .from("activity_log")
       .insert({
         member_id: member.id,
@@ -367,7 +367,7 @@ async function updateStatus(memberId, newStatus) {
     if (activityError) {
       console.error("Status updated, but activity logging failed:", activityError);
       alert("The status changed, but its activity entry could not be saved.");
-    }
+    }*/
 
     await refreshData();
   } catch (error) {
