@@ -402,7 +402,7 @@ async function handleSignedInUser(user) {
 
     if (!refreshTimer) {
       // Check for changes made by other household members every 5 seconds.
-      refreshTimer = setInterval(refreshData, 5000);
+      refreshTimer = setInterval(refreshData, 1000);
     }
   } catch (error) {
     console.error("Initial data load failed:", error);
