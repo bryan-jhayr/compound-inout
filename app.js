@@ -170,8 +170,17 @@ async function checkHouseholdApproval(user) {
     return false;
   }
 
+  
+  const { data: isSuperadmin, error: roleError } =
+    await supabaseClient.rpc("is_household_superadmin");
+
+  console.log("Signed-in email:", user.email);
+  console.log("Is Superadmin:", isSuperadmin);
+  console.log("Role check error:", roleError);
+
   showDashboard(user);
   return true;
+
 }
 
 async function loadMembers() {
