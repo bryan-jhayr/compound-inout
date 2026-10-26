@@ -320,7 +320,7 @@ async function refreshData() {
 }
 
 async function updateStatus(memberId, newStatus) {
-   console.log("updateStatus called:", memberId, newStatus, Date.now());
+  
   if (!currentUser) {
     showLogin("Please sign in again.");
     return;
